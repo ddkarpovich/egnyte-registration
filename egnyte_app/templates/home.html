@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if current_user.is_authenticated %}
+    <div align="center" style="border: 1px solid grey; width: 300px; height: 120px;">
+      <p>Egnyte customer {{ current_user.email }}</p>
+      <p>
+        {{ 'Active' if status.is_active else 'Inactive' }} | {{ 'Running' if status.is_running else 'Not running' }}[{{ status }}]
+      </p>
+      <a href="{{ url_for('egnyte_app_authorize') }}" title="Create customer">Create</a> |
+      <a {% if not status.is_running %}href="{{ url_for('start_saas_customer') }}"{% endif %} title="Create customer">Start</a> |
+      <a {% if status.is_running %}href="{{ url_for('stop_saas_customer') }}"{% endif %} title="Stop customer">Stop</a> |
+      <a {% if status.is_active %}href="{{ url_for('delete_saas_customer') }}"{% endif %} title="Delete customer">Delete</a>
+    </div>
+  {% endif %}
+{% endblock content %}
